@@ -65,7 +65,7 @@ Open `lesson.md`. Read sequentially:
 Run the gotchas file:
 
 ```bash
-npm run example examples/04-advanced-types-gotchas.ts
+npm run example -- examples/04-advanced-types-gotchas.ts
 ```
 
 10 edge cases that will trip you up:

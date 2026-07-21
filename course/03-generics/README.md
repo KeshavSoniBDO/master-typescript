@@ -50,7 +50,7 @@ Open `lesson.md` and read sequentially:
 Run the examples:
 
 ```bash
-npm run example examples/03-generics-basics.ts
+npm run example -- examples/03-generics-gotchas.ts
 ```
 
 Walk through each example:
@@ -73,7 +73,7 @@ For each example:
 
 ### Phase 3: Solve Exercises (90 minutes)
 
-Open `exercises/03-generics.ts`.
+Open `exercises/03-generics-new-exercises.ts`.
 
 There are 11 exercises (+ bonus). Do them in order:
 
@@ -118,7 +118,7 @@ There are 11 exercises (+ bonus). Do them in order:
 
 ### Phase 4: Conceptual Questions (30 minutes)
 
-Open `course/03-generics/conceptual-questions.md`.
+Open `course/03-generics/conceptual-questions-new.md`.
 
 10 questions explore when and why to use generics.
 
@@ -254,10 +254,10 @@ You are **not** a generic expert yet. That comes with practice.
 ## Resources
 
 - `lesson.md` — Comprehensive explanation
-- `examples/03-generics-basics.ts` — Runnable examples
-- `exercises/03-generics.ts` — Problems to solve
-- `exercises/03-generics-solutions.ts` — Solutions with explanations
-- `conceptual-questions.md` — Deep thinking questions
+- `examples/03-generics-gotchas.ts` — Edge cases and surprises
+- `exercises/03-generics-new-exercises.ts` — Problems to solve
+- `exercises/03-generics-new-exercises-solutions.ts` — Solutions with explanations
+- `conceptual-questions-new.md` — Deep thinking questions
 - `assignments/module-3-assignment.md` — Real-world project
 
 ## Questions?

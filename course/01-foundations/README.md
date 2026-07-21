@@ -25,14 +25,14 @@ Read [lesson.md](lesson.md) carefully. Pay attention to:
 
 ### Step 2: Run the Examples (15 min)
 
-Open [examples/01-foundations-runtime-vs-static.ts](../examples/01-foundations-runtime-vs-static.ts)
+Open [examples/01-foundations-gotchas.ts](../../examples/01-foundations-gotchas.ts)
 
 Read through it. Do not just skim—understand each section.
 
 Then run it:
 
 ```bash
-npm run example  # This runs tsx on the examples file
+npm run example -- examples/01-foundations-gotchas.ts
 ```
 
 Notice:
@@ -45,7 +45,7 @@ Notice:
 
 ### Step 3: Complete the Exercises (45 min)
 
-Open [exercises/01-foundations.ts](../exercises/01-foundations.ts)
+Open [exercises/01-foundations-new-exercises.ts](../../exercises/01-foundations-new-exercises.ts)
 
 The file has 8 exercises. Do them in order:
 
@@ -70,7 +70,7 @@ Fix any errors until the output is clean.
 
 ### Step 4: Check Your Work (10 min)
 
-Open [exercises/01-foundations-solutions.ts](../exercises/01-foundations-solutions.ts)
+Open [exercises/01-foundations-new-exercises-solutions.ts](../../exercises/01-foundations-new-exercises-solutions.ts)
 
 Compare your code to the solutions. Look for:
 
@@ -82,7 +82,7 @@ Compare your code to the solutions. Look for:
 
 ### Step 5: Answer Conceptual Questions (30 min)
 
-Open [conceptual-questions.md](conceptual-questions.md)
+Open [conceptual-questions-new.md](conceptual-questions-new.md)
 
 These are thinking questions, not syntax drills. Sit with each one.
 
@@ -104,7 +104,7 @@ Include:
 
 ### Step 6: Do the Assignment (60 min)
 
-Open [assignments/module-1-assignment.md](../assignments/module-1-assignment.md)
+Open [assignments/module-1-assignment.md](../../assignments/module-1-assignment.md)
 
 Build a typed settings parser. This brings together:
 

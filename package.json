@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "tsx src/index.ts",
-    "example": "tsx examples/playground.ts",
+    "example": "tsx",
+    "example:playground": "tsx examples/playground.ts",
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {

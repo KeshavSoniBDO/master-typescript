@@ -1,57 +1,86 @@
-# Start Here (Simple Guide)
+# Start Here
 
-You only need these 5 steps.
+This repository is now a complete TypeScript course with modules, assignments, and assessments.
 
-## 1) Open this file
+## Core Command
 
-Open [course/01-foundations/lesson.md](course/01-foundations/lesson.md)
-
-Read slowly. Do not worry if some parts feel hard.
-
-## 2) See examples
-
-Open [examples/01-foundations-runtime-vs-static.ts](examples/01-foundations-runtime-vs-static.ts)
-
-Just read the code and comments.
-
-## 3) Do practice
-
-Open [exercises/01-foundations.ts](exercises/01-foundations.ts)
-
-Try to solve exercises one by one.
-
-## 4) Check for errors
-
-Run this in terminal:
+Run this often while learning:
 
 ```bash
 npm run typecheck
 ```
 
-If there are errors, fix them in your exercise file.
+## Learning Flow Per Module
 
-## 5) Check solutions
+Use this order for every module:
 
-After trying yourself, open:
+1. `course/<module>/lesson.md`
+2. `examples/<module>-gotchas.ts` (or equivalent module example)
+3. `exercises/<module>.ts`
+4. `exercises/<module>-solutions.ts`
+5. `course/<module>/conceptual-questions.md`
+6. `assignments/module-<n>-assignment.md`
 
-[exercises/01-foundations-solutions.ts](exercises/01-foundations-solutions.ts)
+## Module Sequence
 
-Compare your answers.
+1. Foundations
+	- `course/01-foundations/lesson.md`
+	- `examples/01-foundations-gotchas.ts`
+	- `exercises/01-foundations-new-exercises.ts`
+	- `exercises/01-foundations-new-exercises-solutions.ts`
 
-## If You Feel Stuck
+2. Objects and Functions
+	- `course/02-objects-functions/lesson.md`
+	- `examples/02-objects-functions-gotchas.ts`
+	- `exercises/02-objects-functions.ts`
 
-Use this order:
+3. Generics
+	- `course/03-generics/lesson.md`
+	- `examples/03-generics-gotchas.ts`
+	- `exercises/03-generics-new-exercises.ts`
+	- `exercises/03-generics-new-exercises-solutions.ts`
 
-1. Read [course/01-foundations/lesson.md](course/01-foundations/lesson.md) again
-2. Look at [examples/01-foundations-runtime-vs-static.ts](examples/01-foundations-runtime-vs-static.ts)
-3. Ask me one specific doubt
+4. Advanced Types
+	- `course/04-advanced-types/lesson.md`
+	- `examples/04-advanced-types-gotchas.ts`
+	- `exercises/04-advanced-types.ts`
 
-## Important
+5. Runtime Boundaries
+	- `course/05-runtime-boundaries/lesson.md`
+	- `examples/05-runtime-boundaries-gotchas.ts`
+	- `exercises/05-runtime-boundaries.ts`
 
-You do not need to finish everything in one day.
+6. Tooling and Config
+	- `course/06-tooling-config/lesson.md`
+	- `examples/06-tooling-config-gotchas.ts`
+	- `exercises/06-tooling-config.ts`
 
-Goal for today:
+7. Architecture Patterns
+	- `course/07-architecture-patterns/lesson.md`
+	- `examples/07-architecture-patterns-gotchas.ts`
+	- `exercises/07-architecture-patterns.ts`
 
-- Understand runtime vs compile-time
-- Understand `any` vs `unknown`
-- Solve at least 3 exercises
+8. Assessments and Capstone
+	- `assessments/module-checkpoints.md`
+	- `assessments/final-capstone.md`
+
+## Revision Strategy
+
+After each module:
+
+1. Complete assignment
+2. Run module checkpoint
+3. Write 5-10 lines of reflection in your own notes
+
+After all modules:
+
+1. Complete final capstone
+2. Revisit Modules 5 and 7 for production design depth
+
+## Creator Mode (For Recording/Teaching)
+
+If you are turning this into videos or workshops:
+
+1. Follow [course/youtube-creator-playbook.md](course/youtube-creator-playbook.md)
+2. Use [assessments/teaching-prompts.md](assessments/teaching-prompts.md) during live teaching
+3. Use [assessments/module-checkpoints.md](assessments/module-checkpoints.md) for audience challenges

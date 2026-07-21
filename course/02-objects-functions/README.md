@@ -78,7 +78,7 @@ Open `lesson.md`. Read sequentially:
 Run the gotchas file:
 
 ```bash
-npm run example examples/02-objects-functions-gotchas.ts
+npm run example -- examples/02-objects-functions-gotchas.ts
 ```
 
 12 edge cases that will trip you up:

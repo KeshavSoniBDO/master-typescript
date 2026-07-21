@@ -32,7 +32,22 @@ After installing dependencies:
 npm install
 npm run typecheck
 npm run dev
+npm run example -- examples/01-foundations-gotchas.ts
 ```
+
+## Course Navigation
+
+- Start path: [START-HERE.md](START-HERE.md)
+- Roadmap: [course/00-roadmap.md](course/00-roadmap.md)
+- Module assignments: [assignments/README.md](assignments/README.md)
+- Assessments and capstone: [assessments/README.md](assessments/README.md)
+
+## Creator Mode (YouTube / Teaching)
+
+If you are teaching this publicly or internally:
+
+- Creator playbook: [course/youtube-creator-playbook.md](course/youtube-creator-playbook.md)
+- Live teaching prompts: [assessments/teaching-prompts.md](assessments/teaching-prompts.md)
 
 ## Course Philosophy
 

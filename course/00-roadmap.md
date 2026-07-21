@@ -1,112 +1,107 @@
 # TypeScript Mastery Roadmap
 
-## Phase 1: Foundations That Actually Matter
+This course is now organized as 8 complete phases.
 
-Learn what TypeScript checks, what JavaScript still does at runtime, and why `strict` mode changes how you think.
+## Phase 1: Foundations
 
-Topics:
+Focus:
 
-- JavaScript runtime values vs TypeScript static types
-- Type annotations and inference
-- `any`, `unknown`, and `never`
-- Unions, literals, optional properties
-- Control-flow narrowing
-- Type errors as design feedback
+- runtime vs compile-time mental model
+- `any` / `unknown` / `never`
+- narrowing and exhaustiveness
 
-## Phase 2: Working With Objects and Functions
+Deliverables:
 
-Most real TypeScript lives here.
+- lesson, gotchas, exercises, solutions, conceptual questions, assignment
 
-Topics:
+## Phase 2: Objects and Functions
 
-- Function parameter and return type design
-- Object types, interfaces, and type aliases
-- Structural typing
-- Excess property checks
-- Readonly data and immutability
-- Index signatures and records
+Focus:
+
+- structural typing
+- function contract design
+- excess property checks and readonly boundaries
+
+Deliverables:
+
+- lesson, gotchas, exercises, solutions, conceptual questions, assignment
 
 ## Phase 3: Generics
 
-Generics are how we preserve relationships between inputs and outputs.
+Focus:
 
-Topics:
+- preserving type relationships
+- constraints, `keyof`, inference-friendly APIs
+- avoiding generic over-engineering
 
-- Generic functions
-- Generic constraints
-- Key-based access with `keyof`
-- Generic interfaces and classes
-- Default type parameters
-- Inference-friendly API design
+Deliverables:
 
-## Phase 4: Advanced Type Modeling
+- lesson, gotchas, exercises, solutions, conceptual questions, assignment
 
-This is where TypeScript starts feeling like a type-level design language.
+## Phase 4: Advanced Types
 
-Topics:
+Focus:
 
-- Mapped types
-- Conditional types
-- Template literal types
-- Discriminated unions
-- Utility types
-- Type-level transformations
-- Exhaustiveness checking
+- conditional/mapped/template literal types
+- `infer` extraction patterns
+- utility composition and real-world type transforms
+
+Deliverables:
+
+- lesson, gotchas, exercises, solutions, conceptual questions, assignment
 
 ## Phase 5: Runtime Boundaries
 
-The compiler cannot validate external data. Senior developers know this boundary well.
+Focus:
 
-Topics:
+- unknown input decoding
+- DTO -> domain mapping
+- typed boundary error design
 
-- Parsing API responses safely
-- Type guards and assertion functions
-- Schema validation concepts
-- Error handling with `unknown`
-- Designing DTOs vs domain models
+Deliverables:
 
-## Phase 6: Tooling and Configuration
+- lesson, gotchas, exercises, solutions, conceptual questions, assignment
 
-Strong TypeScript depends on strong project configuration.
+## Phase 6: Tooling and Config
 
-Topics:
+Focus:
 
-- `tsconfig` options
-- Module systems
-- Build vs typecheck
-- Declarations
-- Library typing
-- Monorepo and package typing basics
+- strictness policy
+- module resolution reasoning
+- CI quality gates and migration plans
 
-## Phase 7: Real Developer Patterns
+Deliverables:
 
-Apply TypeScript to code architecture.
+- lesson, gotchas, exercises, solutions, conceptual questions, assignment
 
-Topics:
+## Phase 7: Architecture Patterns
 
-- Typed service layers
-- Repository and adapter boundaries
-- State modeling
-- Framework patterns in React and Angular
-- Avoiding over-engineered types
-- Reading type errors from third-party libraries
+Focus:
 
-## Phase 8: Assessments and Projects
+- discriminated workflow modeling
+- ports/adapters and anti-corruption layers
+- explicit result contracts in services
 
-Once the learning phase is solid, we will create separate assignments and projects.
+Deliverables:
 
-Possible projects:
+- lesson, gotchas, exercises, solutions, conceptual questions, assignment
 
-- Typed command-line task tracker
-- Runtime-safe API client
-- Mini state machine library
-- Form validation engine
-- Typed event bus
-- Angular or React type-pattern refactor
+## Phase 8: Assessments and Capstone
 
-## Learning Rule
+Focus:
 
-For every feature, ask two questions:
+- checkpoint mastery per module
+- integrated end-to-end capstone
+
+Deliverables:
+
+- `assessments/module-checkpoints.md`
+- `assessments/final-capstone.md`
+
+## Course Rule
+
+For every feature, ask:
 
 1. What JavaScript will run?
-2. What assumptions is TypeScript checking before it runs?
+2. What assumptions is TypeScript checking before runtime?
+3. Where can runtime boundaries still fail?
