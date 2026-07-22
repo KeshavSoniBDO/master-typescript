@@ -1,351 +1,227 @@
-// Module 3: Generics - Solutions & Explanations
+// Module 3: Generics - New Exercises Solutions
 
-// ============================================================================
-// EXERCISE 1 SOLUTION: Basic Generic Function
-// ============================================================================
+export {};
 
-function arrayLength<T>(items: T[]): number {
-  return items.length;
-}
+class GenericCache<T> {
+  private store: Map<string, T> = new Map();
 
-// EXPLANATION:
-// - T is a type parameter (placeholder)
-// - items: T[] means "array of whatever type T is"
-// - The function works the same way for any array type
-// - The caller does not need to write <number> or <string>; TypeScript infers T
-
-// When called:
-// arrayLength([1, 2, 3])      → T = number, returns number
-// arrayLength(["a", "b"])     → T = string, returns string
-// arrayLength([true, false])  → T = boolean, returns boolean
-
-// ============================================================================
-// EXERCISE 2 SOLUTION: Generic Type Definition
-// ============================================================================
-
-type Pair<T> = [T, T];
-
-// EXPLANATION:
-// - A Pair is a tuple of two values of the same type
-// - By using <T>, the second element must match the first's type
-// - Alternative: type Pair<T> = { first: T; second: T };
-
-const numberPair: Pair<number> = [1, 2];
-const stringPair: Pair<string> = ["a", "b"];
-
-// TypeScript enforces that both elements are the same type:
-// const badPair: Pair<number> = [1, "two"];  // ERROR: "two" is not a number
-
-// ============================================================================
-// EXERCISE 3 SOLUTION: Multiple Type Parameters
-// ============================================================================
-
-function createPair<T, U>(first: T, second: U) {
-  return { first, second };
-}
-
-// EXPLANATION:
-// - T and U are two separate type slots
-// - first: T, second: U means they can be different types
-// - The return type is { first: T; second: U }
-// - TypeScript infers both T and U from the arguments
-
-const pair = createPair(42, "hello");
-// T = number, U = string
-// pair type: { first: number; second: string }
-
-// ============================================================================
-// EXERCISE 4 SOLUTION: Constraint to Object
-// ============================================================================
-
-function countKeys<T extends object>(obj: T): number {
-  return Object.keys(obj).length;
-}
-
-// EXPLANATION:
-// - <T extends object> means T must be an object type
-// - This prevents passing primitives like numbers or strings
-// - Object.keys() works because we know obj is an object
-
-countKeys({ name: "Sonik", age: 24 });     // 2, OK
-countKeys({ id: "u1" });                   // 1, OK
-// countKeys(42);                           // ERROR: not assignable to object
-
-// WHY THE CONSTRAINT?
-// Without it, we could not safely call Object.keys(obj) because
-// we would not know obj is an object. The constraint guarantees safety.
-
-// ============================================================================
-// EXERCISE 5 SOLUTION: Constraint to Specific Properties
-// ============================================================================
-
-function getId<T extends { id: string }>(obj: T): string {
-  return obj.id;
-}
-
-// EXPLANATION:
-// - <T extends { id: string }> means T must have an 'id' property of type string
-// - This constraint guarantees obj.id exists and is a string
-// - TypeScript prevents passing objects without an 'id' property
-
-getId({ id: "123", name: "Sonik" });  // OK, has id
-getId({ id: "u1" });                  // OK, has id
-// getId({ name: "Sonik" });           // ERROR: missing id property
-
-// WHY?
-// Without the constraint, TypeScript would not know if obj has an 'id' property
-// The constraint makes it safe to access obj.id
-
-// ============================================================================
-// EXERCISE 6 SOLUTION: keyof with Safe Property Access
-// ============================================================================
-
-type Product = {
-  name: string;
-  price: number;
-  inStock: boolean;
-};
-
-function getProperty<K extends keyof Product>(
-  product: Product,
-  key: K
-): Product[K] {
-  return product[key];
-}
-
-// EXPLANATION:
-// - <K extends keyof Product> means K must be a valid key of Product
-// - keyof Product = "name" | "price" | "inStock"
-// - Product[K] is the type of that property
-// - If key = "name", return type is Product["name"] = string
-// - If key = "price", return type is Product["price"] = number
-
-const product: Product = {
-  name: "Laptop",
-  price: 1000,
-  inStock: true
-};
-
-const name: string = getProperty(product, "name");       // OK
-const price: number = getProperty(product, "price");     // OK
-const inStock: boolean = getProperty(product, "inStock"); // OK
-// getProperty(product, "unknown");                      // ERROR
-
-// KEY INSIGHT:
-// The relationship between the key and the return type is captured.
-// You cannot ask for a property that does not exist.
-// And the return type matches the property type exactly.
-
-// ============================================================================
-// EXERCISE 7 SOLUTION: Generic Array Transformation
-// ============================================================================
-
-function transform<T, U>(items: T[], fn: (item: T) => U): U[] {
-  return items.map(fn);
-}
-
-// EXPLANATION:
-// - T is the input item type, U is the output item type
-// - fn: (item: T) => U transforms T into U
-// - The function maps fn over all items
-// - Output type is U[], preserving the transformation type
-
-const nums = [1, 2, 3];
-const strings = transform(nums, n => n.toString());
-// T = number, U = string
-// strings is string[]
-// strings = ["1", "2", "3"]
-
-const words = ["hello", "world"];
-const lengths = transform(words, w => w.length);
-// T = string, U = number
-// lengths is number[]
-// lengths = [5, 5]
-
-// ============================================================================
-// EXERCISE 8 SOLUTION: Constrain to Class Instance
-// ============================================================================
-
-function getErrorMessage<T extends Error>(error: T): string {
-  return error.message;
-}
-
-// EXPLANATION:
-// - <T extends Error> means T must be an Error or subclass of Error
-// - This guarantees error.message exists
-// - TypeScript rejects non-Error types
-
-getErrorMessage(new Error("Something went wrong"));  // OK
-getErrorMessage(new TypeError("Type error"));        // OK
-// getErrorMessage("not an error");                  // ERROR
-
-// WHY?
-// Error has a message property. The constraint guarantees it exists.
-// Without it, we could not safely access error.message
-
-// ============================================================================
-// EXERCISE 9 SOLUTION: Merge Objects with Generics
-// ============================================================================
-
-function mergeObjects<T extends object, U extends object>(
-  obj1: T,
-  obj2: U
-): T & U {
-  return { ...obj1, ...obj2 } as T & U;
-}
-
-// EXPLANATION:
-// - Both obj1 and obj2 must be objects
-// - { ...obj1, ...obj2 } spreads both objects into one
-// - T & U is the intersection type: "has all properties of T and U"
-// - The cast 'as T & U' tells TypeScript the result type
-
-const userMerged = mergeObjects({ name: "Sonik" }, { age: 24 });
-// T = { name: string }, U = { age: number }
-// Result type: { name: string } & { age: number }
-// userMerged.name is string, userMerged.age is number
-
-const merged = mergeObjects({ id: "1" }, { admin: true });
-// merged.id is string, merged.admin is boolean
-
-// ============================================================================
-// EXERCISE 10 SOLUTION: Generic Function Composition
-// ============================================================================
-
-function compose<T, U, V>(
-  fn1: (input: T) => U,
-  fn2: (input: U) => V
-): (input: T) => V {
-  return (input: T) => fn2(fn1(input));
-}
-
-// EXPLANATION:
-// - fn1 transforms T to U
-// - fn2 transforms U to V
-// - The composed function transforms T directly to V
-// - It chains: call fn1 first, then pass result to fn2
-
-const add1 = (n: number) => n + 1;
-const times2 = (n: number) => n * 2;
-const composed = compose(add1, times2);
-// Composed function: (n: number) => number
-// compose(5) = times2(add1(5)) = times2(6) = 12
-
-const toNumber = (s: string) => parseInt(s);
-const double = (n: number) => n * 2;
-const stringToDouble = compose(toNumber, double);
-// Composed function: (s: string) => number
-// stringToDouble("5") = double(toNumber("5")) = double(5) = 10
-
-// ============================================================================
-// EXERCISE 11 SOLUTION: Pick Properties from Object
-// ============================================================================
-
-type User = {
-  id: string;
-  name: string;
-  email: string;
-  age: number;
-};
-
-function pick<T, K extends keyof T>(obj: T, keys: K[]): Record<K, T[K]> {
-  const result = {} as Record<K, T[K]>;
-  for (const key of keys) {
-    result[key] = obj[key];
+  set(key: string, value: T): void {
+    this.store.set(key, value);
   }
-  return result;
+
+  get(key: string): T | undefined {
+    return this.store.get(key);
+  }
+
+  getOrDefault(key: string, defaultValue: T): T {
+    return this.store.get(key) ?? defaultValue;
+  }
 }
 
-// EXPLANATION:
-// - T is the object type, K is a key of T
-// - keys: K[] is an array of valid property names
-// - Record<K, T[K]> means "object with keys K, values are T[K]"
-// - For each key, we copy the property from obj to result
-
-const user: User = {
-  id: "1",
-  name: "Sonik",
-  email: "test@example.com",
-  age: 24
+type EventMap = {
+  login: { userId: string };
+  logout: { userId: string };
+  error: { code: number; message: string };
+  dataSync: { count: number };
 };
 
-const partial = pick(user, ["name", "age"]);
-// Result: { name: "Sonik", age: 24 }
-// partial.name is string
-// partial.age is number
-// partial.id does not exist
+class EventEmitter<T extends Record<string, any>> {
+  private handlers: Map<string, Array<(data: any) => void>> = new Map();
 
-// ============================================================================
-// BONUS SOLUTION: Very Hard - Typed Database Query
-// ============================================================================
+  on<K extends keyof T>(event: K, handler: (data: T[K]) => void): void {
+    const key = String(event);
+    const list = this.handlers.get(key) ?? [];
+    list.push(handler as (data: any) => void);
+    this.handlers.set(key, list);
+  }
 
-type DbUser = {
-  id: string;
+  emit<K extends keyof T>(event: K, data: T[K]): void {
+    const list = this.handlers.get(String(event)) ?? [];
+    for (const handler of list) {
+      handler(data);
+    }
+  }
+
+  once<K extends keyof T>(event: K, handler: (data: T[K]) => void): void {
+    const wrapper = (data: T[K]) => {
+      this.off(event, wrapper);
+      handler(data);
+    };
+    this.on(event, wrapper);
+  }
+
+  private off<K extends keyof T>(event: K, handler: (data: T[K]) => void): void {
+    const key = String(event);
+    const list = this.handlers.get(key);
+    if (!list) return;
+    this.handlers.set(
+      key,
+      list.filter((h) => h !== (handler as (data: any) => void))
+    );
+  }
+}
+
+class SafeArray<T> {
+  constructor(private items: T[]) {}
+
+  get length(): number {
+    return this.items.length;
+  }
+
+  get(index: number): T | undefined {
+    return this.items[index];
+  }
+
+  map<U>(fn: (item: T) => U): SafeArray<U> {
+    return new SafeArray(this.items.map(fn));
+  }
+
+  filter(fn: (item: T) => boolean): SafeArray<T> {
+    return new SafeArray(this.items.filter(fn));
+  }
+}
+
+interface ConfigOptions {
+  host?: string;
+  port?: number;
+  ssl?: boolean;
+  timeout?: number;
+}
+
+class ConfigBuilder<T extends Partial<ConfigOptions>> {
+  private config: T;
+
+  constructor(initial: T = {} as T) {
+    this.config = initial;
+  }
+
+  setHost(host: string): ConfigBuilder<T & { host: string }> {
+    return new ConfigBuilder({ ...this.config, host } as T & { host: string });
+  }
+
+  setPort(port: number): ConfigBuilder<T & { port: number }> {
+    return new ConfigBuilder({ ...this.config, port } as T & { port: number });
+  }
+
+  setSSL(ssl: boolean): ConfigBuilder<T & { ssl: boolean }> {
+    return new ConfigBuilder({ ...this.config, ssl } as T & { ssl: boolean });
+  }
+
+  build(): T {
+    return this.config;
+  }
+}
+
+type RecursiveTransform<T> = T extends string
+  ? string
+  : T extends number
+    ? number
+    : T extends object
+      ? { [K in keyof T]: RecursiveTransform<T[K]> }
+      : T;
+
+function transform<T>(obj: T, transformer: (val: any) => any): RecursiveTransform<T> {
+  if (Array.isArray(obj)) {
+    return obj.map((item) => transform(item, transformer)) as RecursiveTransform<T>;
+  }
+
+  if (obj !== null && typeof obj === "object") {
+    const out: Record<string, unknown> = {};
+    for (const [key, value] of Object.entries(obj as Record<string, unknown>)) {
+      out[key] = transform(value, transformer);
+    }
+    return out as RecursiveTransform<T>;
+  }
+
+  return transformer(obj) as RecursiveTransform<T>;
+}
+
+interface PluginDefinition<T> {
   name: string;
-  email: string;
-};
-
-type DbPost = {
-  id: string;
-  title: string;
-  authorId: string;
-};
-
-function filterBy<T, K extends keyof T>(
-  items: T[],
-  key: K,
-  value: T[K]
-): T[] {
-  return items.filter(item => item[key] === value);
+  handler: (input: T) => string;
 }
 
-// EXPLANATION:
-// - T is the item type, K is a valid key of T
-// - key: K means we can only filter by properties that exist
-// - value: T[K] means the value must match the property type
-// - We filter items where item[key] === value
+class PluginRegistry<T> {
+  private plugins: PluginDefinition<T>[] = [];
 
-const users: DbUser[] = [
-  { id: "1", name: "Sonik", email: "sonik@example.com" },
-  { id: "2", name: "Asha", email: "asha@example.com" }
-];
+  register(plugin: PluginDefinition<T>): void {
+    this.plugins.push(plugin);
+  }
 
-const sonikUsers = filterBy(users, "name", "Sonik");
-// K = "name", value = "Sonik" (type string)
-// Result: [{ id: "1", name: "Sonik", email: "sonik@example.com" }]
+  execute(input: T): string[] {
+    return this.plugins.map((p) => p.handler(input));
+  }
 
-const posts: DbPost[] = [
-  { id: "p1", title: "Hello", authorId: "1" },
-  { id: "p2", title: "World", authorId: "2" }
-];
+  count(): number {
+    return this.plugins.length;
+  }
+}
 
-const postsBy1 = filterBy(posts, "authorId", "1");
-// K = "authorId", value = "1" (type string)
-// Result: [{ id: "p1", title: "Hello", authorId: "1" }]
+function updateObject<T extends object>(obj: T, updates: Partial<T>): T {
+  return { ...obj, ...updates };
+}
 
-// ============================================================================
-// KEY LEARNING POINTS
-// ============================================================================
+function promiseAll<T extends readonly Promise<any>[]>(
+  promises: T
+): Promise<{ [K in keyof T]: Awaited<T[K]> }> {
+  return Promise.all(promises) as Promise<{ [K in keyof T]: Awaited<T[K]> }>;
+}
 
-// 1. Generics preserve relationships
-//    - Input array type determines output element type
-//    - Input key determines output value type
+type AccumulatorMap = {
+  count: number[];
+  messages: string[];
+  flags: boolean[];
+};
 
-// 2. Constraints make generics safe
-//    - <T extends object> ensures you can call Object methods
-//    - <K extends keyof T> ensures the key exists
-//    - <T extends { id: string }> ensures the property exists
+class Accumulator<T extends Record<string, any[]>> {
+  private data: Partial<T> = {};
 
-// 3. keyof enables type-safe property access
-//    - keyof T gives you "name" | "price" | ... (the valid keys)
-//    - T[K] gives you the type of property K
-//    - This prevents passing invalid keys
+  add<K extends keyof T>(key: K, value: T[K][0]): void {
+    const current = this.data[key] ?? [];
+    this.data[key] = [...current, value] as T[K];
+  }
 
-// 4. Multiple type parameters encode relationships
-//    - <T, U> for different types
-//    - Callback functions link them: (T) => U
+  get<K extends keyof T>(key: K): T[K] {
+    return (this.data[key] ?? []) as T[K];
+  }
 
-// 5. Inference makes generics user-friendly
-//    - Do not write <number, string> explicitly
-//    - Let TypeScript infer from arguments
-//    - Good generic APIs hide the complexity
+  getByIndex<K extends keyof T>(key: K, index: number): T[K][0] | undefined {
+    return this.get(key)[index] as T[K][0] | undefined;
+  }
+}
+
+const stringCache = new GenericCache<string>();
+stringCache.set("name", "Sonik");
+
+const emitter = new EventEmitter<EventMap>();
+emitter.on("login", (d) => console.log(d.userId));
+emitter.emit("login", { userId: "u1" });
+
+const safe = new SafeArray([1, 2, 3]).map((n) => n * 2).filter((n) => n > 2);
+
+const cfg = new ConfigBuilder().setHost("localhost").setPort(3000).setSSL(true).build();
+
+const transformed = transform(
+  { id: 1, profile: { name: "sonik", bio: "dev" } },
+  (v) => (typeof v === "string" ? v.toUpperCase() : v)
+);
+
+const registry = new PluginRegistry<string>();
+registry.register({ name: "upper", handler: (s) => s.toUpperCase() });
+
+const updated = updateObject({ id: "1", name: "Sonik" }, { name: "John" });
+
+const acc = new Accumulator<AccumulatorMap>();
+acc.add("count", 1);
+acc.add("messages", "hello");
+
+void promiseAll([Promise.resolve("a"), Promise.resolve(2)] as const).then((v) => console.log(v[0], v[1]));
+console.log(
+  stringCache.getOrDefault("missing", "fallback"),
+  safe.length,
+  cfg.host,
+  transformed.profile.name,
+  registry.execute("test")[0],
+  updated.name,
+  acc.getByIndex("count", 0)
+);

@@ -45,10 +45,18 @@ const assertValue3: string = 42 as any as string;    // This compiles but is a l
 
 const suspect: any = fetchDataFromApi();
 
-suspect.doThis();           // No error
-suspect.doThat();           // No error
-suspect.foo.bar.baz.qux();  // No error
-suspect[0][1][2][3];        // No error
+// All four calls below COMPILE with no type error, because `any` turns off
+// checking. At runtime they throw, because the real value is an empty object.
+// We catch the failure so the demo keeps running — the point is that TypeScript
+// gave you zero warning before it exploded.
+try {
+  suspect.doThis();           // No compile error
+  suspect.doThat();           // No compile error
+  suspect.foo.bar.baz.qux();  // No compile error
+  suspect[0][1][2][3];        // No compile error
+} catch (error) {
+  console.log("GOTCHA 3: 'any' compiled cleanly but crashed at runtime:", (error as Error).message);
+}
 
 // All compile with 'any'. All might crash at runtime.
 // Using 'any' is saying "I don't need TypeScript's help here".

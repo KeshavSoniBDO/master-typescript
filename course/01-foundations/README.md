@@ -45,7 +45,7 @@ Notice:
 
 ### Step 3: Complete the Exercises (45 min)
 
-Open [exercises/01-foundations-new-exercises.ts](../../exercises/01-foundations-new-exercises.ts)
+Open [exercises/01-foundations.ts](../../exercises/01-foundations.ts)
 
 The file has 8 exercises. Do them in order:
 
@@ -70,7 +70,7 @@ Fix any errors until the output is clean.
 
 ### Step 4: Check Your Work (10 min)
 
-Open [exercises/01-foundations-new-exercises-solutions.ts](../../exercises/01-foundations-new-exercises-solutions.ts)
+Open [exercises/01-foundations-solutions.ts](../../exercises/01-foundations-solutions.ts)
 
 Compare your code to the solutions. Look for:
 
@@ -82,7 +82,7 @@ Compare your code to the solutions. Look for:
 
 ### Step 5: Answer Conceptual Questions (30 min)
 
-Open [conceptual-questions-new.md](conceptual-questions-new.md)
+Open [conceptual-questions.md](conceptual-questions.md)
 
 These are thinking questions, not syntax drills. Sit with each one.
 

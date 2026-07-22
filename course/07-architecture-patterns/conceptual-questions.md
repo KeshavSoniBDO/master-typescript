@@ -1,5 +1,9 @@
 # Module 7: Architecture Patterns - Conceptual Questions
 
+These are senior-level design questions, not syntax drills. There are no single
+right answers — only better-reasoned ones. For each question, write your answer,
+then ground it in a concrete example from a real codebase you have worked on.
+
 1. Where should runtime validation live in a layered architecture, and why?
 2. What makes a discriminated-union workflow superior to boolean-flag state models?
 3. When should services return explicit result unions vs throwing exceptions?

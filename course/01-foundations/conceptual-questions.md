@@ -216,6 +216,73 @@ Without reading the code, you know:
 
 ---
 
+### Question 9: Structural Typing
+
+**Scenario:**
+
+```ts
+interface Dog { bark(): void; }
+interface Robot { bark(): void; }
+
+const dog: Dog = { bark: () => {} };
+const robot: Robot = dog; // OK — same shape, different intent
+```
+
+TypeScript matches types by shape, not by name. Languages like Java match by name (you must explicitly declare `implements`).
+
+**Question:** When is structural typing a feature, and when is it a trap?
+
+**Think about:**
+- Does matching by shape make refactoring easier or riskier?
+- Can you satisfy a type by accident and introduce a subtle bug?
+- Where would a "brand" (a unique marker property) protect you?
+
+---
+
+### Question 10: Type Space vs Value Space
+
+**Scenario:**
+
+```ts
+const x: string = "hello";
+// "string" lives in TYPE space (erased at runtime)
+// "hello" lives in VALUE space (exists at runtime)
+```
+
+Types and values are two separate worlds. You can only cross between them in specific ways (`typeof value` to get a type, or a class name that is both).
+
+**Question:** Why does keeping types and values separate make TypeScript simpler to reason about?
+
+**Think about:**
+- What breaks if you try to use a type as a value?
+- When do you actually need `typeof` to bridge the two?
+- How does erasure depend on this separation?
+
+---
+
+### Question 11: Literal Types
+
+**Scenario:**
+
+```ts
+type Direction = "north" | "south" | "east" | "west";
+
+const a = "north";          // inferred as "north" (a literal)
+let b = "north";            // inferred as string (widened)
+const c = "north" as const; // stays "north"
+```
+
+Literal types let you be hyper-specific, but inference sometimes widens them to `string` or `number`.
+
+**Question:** When do you want a narrow literal, and when does it just add noise?
+
+**Think about:**
+- Why does `const` keep the literal but `let` widen it?
+- Where do string-literal unions replace enums?
+- When does `as const` earn its keep?
+
+---
+
 ## Reflecting on Learning
 
 After thinking through these, answer:

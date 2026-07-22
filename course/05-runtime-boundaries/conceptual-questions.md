@@ -1,5 +1,9 @@
 # Module 5: Runtime Boundaries - Conceptual Questions
 
+These are senior-level design questions, not syntax drills. There are no single
+right answers — only better-reasoned ones. For each question, write your answer,
+then ground it in a concrete example from a real codebase you have worked on.
+
 1. Where are the top three runtime boundaries in this repository right now, and how are they validated today?
 2. Why is `JSON.parse(text) as User` usually a design smell even when it compiles?
 3. When should a boundary decoder return a typed error result instead of throwing?

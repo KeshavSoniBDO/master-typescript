@@ -64,7 +64,7 @@ If you ignored the error and the code ran anyway, JavaScript would just call the
 TypeScript infers the type from the value. You do not always need to write it explicitly.
 
 ```ts
-// TypeScript infers this is the literal type "Sonik", not just string
+// TypeScript infers the literal type "TypeScript", not just string
 const language = "TypeScript";
 
 // TypeScript infers this is string (because it can be reassigned)

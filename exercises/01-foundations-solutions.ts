@@ -1,1 +1,201 @@
-// ============================================================================\n// MODULE 1 EXERCISES: SOLUTIONS\n// ============================================================================\n//\n// Try the exercises first. Only peek at these solutions after attempting them.\n// The goal is learning, not getting the right answer.\n//\n\n// ============================================================================\n// EXERCISE 1: INFERENCE - SOLUTIONS\n// ============================================================================\n\nconst language = \"TypeScript\";  // literal type \"TypeScript\"\nlet experience = \"React and Angular\";  // string (mutable)\nconst yearsOfExperience = 5;  // literal type 5\nconst isMastering = true;  // literal type true\nconst goals = [\"understand types\", \"master generics\", \"build cool stuff\"];  // string[]\n\n// Why?\n// - const gets literal types (the exact value)\n// - let gets broader types (string, number, etc.)\n// - Arrays get element types: string[]\n\n// ============================================================================\n// EXERCISE 2: REPLACE `any` WITH `unknown` - SOLUTION\n// ============================================================================\n\nfunction printUppercaseFixed(value: unknown) {\n  // Type guard approach\n  if (typeof value === \"string\") {\n    console.log(value.toUpperCase());\n  } else {\n    throw new Error(\"Expected a string\");\n  }\n}\n\n// Why this works:\n// - unknown means \"we have a value but do not know its type\"\n// - typeof check narrows the type inside the if block\n// - TypeScript now knows value is a string in the if block\n\n// ============================================================================\n// EXERCISE 3: TYPE GUARDS - SOLUTION\n// ============================================================================\n\ntype OrderStatus = \"pending\" | \"shipped\" | \"delivered\";\n\nfunction isOrderStatus(value: unknown): value is OrderStatus {\n  return (\n    typeof value === \"string\" &&\n    (value === \"pending\" || value === \"shipped\" || value === \"delivered\")\n  );\n}\n\n// Alternative (more concise):\nfunction isOrderStatusAlt(value: unknown): value is OrderStatus {\n  return typeof value === \"string\" && [\"pending\", \"shipped\", \"delivered\"].includes(value);\n}\n\n// Why this works:\n// - value is OrderStatus means: if this function returns true, TypeScript assumes value is an OrderStatus\n// - We check typeof value === \"string\" first (runtime safety)\n// - Then we check it is one of the valid values\n// - Now callers can use isOrderStatus as a type guard\n\n// ============================================================================\n// EXERCISE 4: UNIONS AND LITERALS - SOLUTION\n// ============================================================================\n\ntype ValidUserField = \"name\" | \"email\" | \"age\";\n\nfunction updateUserFixed(userId: string, field: ValidUserField, value: unknown) {\n  console.log(`Updated ${field} to ${value}`);\n}\n\n// Now:\n// updateUserFixed(\"123\", \"name\", \"Sonik\");  // OK\n// updateUserFixed(\"123\", \"phone\", \"555-1234\");  // ERROR: Argument of type '\"phone\"' is not assignable to parameter of type 'ValidUserField'\n\n// Why this is better:\n// - The function contract is clear: only these three fields are allowed\n// - TypeScript catches mistakes at compile time\n// - The compiler is now helping you avoid invalid calls\n\n// ============================================================================\n// EXERCISE 5: CONTROL FLOW NARROWING - SOLUTION\n// ============================================================================\n\nfunction process(value: string | number | null) {\n  if (value === null) {\n    console.log(\"Value is null\");\n    // value is null here\n  } else if (typeof value === \"string\") {\n    console.log(value.toUpperCase());\n    // value is string here\n  } else {\n    console.log(value.toFixed(2));\n    // value is number here\n  }\n}\n\nprocess(\"hello\");\nprocess(42);\nprocess(null);\n\n// Why this works:\n// - Each branch narrows the type\n// - TypeScript knows what is possible in each branch\n// - You cannot accidentally call .toUpperCase() on a number\n\n// ============================================================================\n// EXERCISE 6: OPTIONAL PROPERTIES - SOLUTION\n// ============================================================================\n\ntype Product = {\n  id: string;\n  name: string;\n  description?: string;  // optional\n  price: number;\n};\n\nfunction displayProduct(product: Product) {\n  console.log(`${product.name}: $${product.price}`);\n\n  // Solution 1: Optional chaining\n  console.log(`Description: ${product.description ?? \"N/A\"}`);\n\n  // Solution 2: Narrow with if\n  if (product.description !== undefined) {\n    console.log(`Description: ${product.description}`);\n  }\n\n  // Solution 3: Use optional chaining operator\n  console.log(`Length: ${product.description?.length}`);\n}\n\n// Why this matters:\n// - Optional properties might be undefined\n// - TypeScript forces you to handle that\n// - Optional chaining (?.) is a shorthand for the check\n\n// ============================================================================\n// EXERCISE 7: EXHAUSTIVENESS WITH `never` - SOLUTION\n// ============================================================================\n\ntype PaymentStatus = \"pending\" | \"completed\" | \"failed\" | \"refunded\";\n\nfunction handlePayment(status: PaymentStatus): string {\n  if (status === \"pending\") {\n    return \"Processing...\";\n  } else if (status === \"completed\") {\n    return \"Payment successful\";\n  } else if (status === \"failed\") {\n    return \"Payment failed\";\n  } else if (status === \"refunded\") {\n    return \"Payment refunded\";\n  } else {\n    // This line ensures all cases are handled\n    const impossible: never = status;\n    return impossible;\n  }\n}\n\n// Why this is powerful:\n// - If you add a new status, TypeScript shows an error here\n// - You cannot accidentally forget a case\n// - The compiler forces you to handle every possibility\n\n// ============================================================================\n// EXERCISE 8: COMBINING CONCEPTS - SOLUTION\n// ============================================================================\n\ntype ApiUser = {\n  id: string;\n  name: string;\n  email?: string;\n};\n\nfunction isApiUser(value: unknown): value is ApiUser {\n  return (\n    typeof value === \"object\" &&\n    value !== null &&\n    typeof (value as any).id === \"string\" &&\n    typeof (value as any).name === \"string\" &&\n    (typeof (value as any).email === \"string\" || (value as any).email === undefined)\n  );\n}\n\n// Alternative (more strict):\nfunction isApiUserStrict(value: unknown): value is ApiUser {\n  if (typeof value !== \"object\" || value === null) {\n    return false;\n  }\n\n  const obj = value as Record<string, unknown>;\n\n  return (\n    typeof obj.id === \"string\" &&\n    typeof obj.name === \"string\" &&\n    (obj.email === undefined || typeof obj.email === \"string\")\n  );\n}\n\nfunction fetchUserFromAPI(): unknown {\n  return {\n    id: \"user-1\",\n    name: \"Sonik\",\n    email: \"sonik@example.com\"\n  };\n}\n\nconst apiResponse = fetchUserFromAPI();\nif (isApiUser(apiResponse)) {\n  console.log(`User ${apiResponse.name} has ID ${apiResponse.id}`);\n  // apiResponse.email?.length;  // OK, email might be undefined\n} else {\n  console.log(\"API returned invalid data\");\n}\n\n// Why this matters:\n// - External data (APIs, JSON, user input) is always unknown\n// - You must validate before using it\n// - A type guard is reusable validation logic\n// - This is how you protect the boundary between external and internal code\n\n// ============================================================================\n// REFLECTION\n// ============================================================================\n//\n// Common mistakes:\n// 1. Using `as` instead of validating (type assertions lie)\n// 2. Not narrowing optional properties\n// 3. Forgetting the exhaustiveness check (the never line)\n// 4. Not thinking about what data can come from outside\n//\n// Next level:\n// 1. Explore schemas for validation (zod, yup, io-ts)\n// 2. Learn when inference is enough vs when you need explicit types\n// 3. Practice modeling business logic with types\n// 4. Think about how types communicate intent to other developers\n"
+// Module 1: Foundations - New Exercises Solutions
+
+export {};
+
+interface Validator<T> {
+  validate(data: unknown): { ok: true; value: T } | { ok: false; reason: string };
+}
+
+type User = { id: string; name: string; email: string };
+
+class UserValidator implements Validator<User> {
+  validate(data: unknown): { ok: true; value: User } | { ok: false; reason: string } {
+    if (typeof data !== "object" || data === null) {
+      return { ok: false, reason: "User must be an object" };
+    }
+
+    const record = data as Record<string, unknown>;
+    if (typeof record["id"] !== "string") return { ok: false, reason: "id must be string" };
+    if (typeof record["name"] !== "string") return { ok: false, reason: "name must be string" };
+    if (typeof record["email"] !== "string") return { ok: false, reason: "email must be string" };
+
+    return {
+      ok: true,
+      value: {
+        id: record["id"],
+        name: record["name"],
+        email: record["email"]
+      }
+    };
+  }
+}
+
+type ClickEvent = { type: "click"; x: number; y: number };
+type SubmitEvent = { type: "submit"; formData: Record<string, unknown> };
+type TimerEvent = { type: "timer"; duration: number };
+type AppEvent = ClickEvent | SubmitEvent | TimerEvent;
+
+function handleEvent(event: AppEvent): void {
+  switch (event.type) {
+    case "click":
+      console.log(`Clicked at (${event.x}, ${event.y})`);
+      break;
+    case "submit":
+      console.log(`Submit fields: ${Object.keys(event.formData).join(", ")}`);
+      break;
+    case "timer":
+      console.log(`Timer duration: ${event.duration}`);
+      break;
+  }
+}
+
+function getEventData(event: AppEvent): unknown {
+  switch (event.type) {
+    case "click":
+      return { x: event.x, y: event.y };
+    case "submit":
+      return event.formData;
+    case "timer":
+      return event.duration;
+  }
+}
+
+function getEventType(event: AppEvent): string {
+  return event.type;
+}
+
+function isError(value: unknown): value is Error {
+  return value instanceof Error;
+}
+
+function isApiError(value: unknown): value is { code: number; message: string } {
+  if (typeof value !== "object" || value === null) return false;
+  const record = value as Record<string, unknown>;
+  return typeof record["code"] === "number" && typeof record["message"] === "string";
+}
+
+function handleError(error: unknown): void {
+  if (isError(error)) {
+    console.error(`Error: ${error.message}`);
+    return;
+  }
+
+  if (isApiError(error)) {
+    console.error(`API ${error.code}: ${error.message}`);
+    return;
+  }
+
+  console.error("Unknown error");
+}
+
+function parseConfig(configString: string): Record<string, unknown> {
+  try {
+    const parsed: unknown = JSON.parse(configString);
+    if (typeof parsed === "object" && parsed !== null) {
+      return parsed as Record<string, unknown>;
+    }
+    return {};
+  } catch {
+    return {};
+  }
+}
+
+type Response<T> =
+  | { status: "loading" }
+  | { status: "success"; data: T }
+  | { status: "error"; error: string };
+
+function handleResponse<T>(response: Response<T>): string {
+  if (response.status === "loading") {
+    return "Loading...";
+  }
+
+  if (response.status === "success") {
+    return String(response.data);
+  }
+
+  return response.error;
+}
+
+function fetchUserFromExternalAPI(): unknown {
+  return { id: "1", name: "Sonik", email: "sonik@example.com" };
+}
+
+type UserForWrapping = { id: string; name: string; email: string };
+
+function getTypedUser(): UserForWrapping {
+  const validator = new UserValidator();
+  const raw = fetchUserFromExternalAPI();
+  const validated = validator.validate(raw);
+  if (!validated.ok) {
+    throw new Error(validated.reason);
+  }
+  return validated.value;
+}
+
+type AppConfig = {
+  readonly apiUrl: string;
+  readonly timeout: number;
+  readonly retries: number;
+};
+
+function createAppConfig(config: AppConfig): AppConfig {
+  return Object.freeze({ ...config });
+}
+
+function processInput(value: unknown): string {
+  if (typeof value === "string") return value.toUpperCase();
+  if (typeof value === "number") return String(value);
+  if (typeof value === "boolean") return value ? "yes" : "no";
+  return "unsupported type";
+}
+
+function assertNever(value: never): never {
+  throw new Error(`Unreachable code reached: ${String(value)}`);
+}
+
+type Animal = "dog" | "cat" | "bird";
+
+function greet(animal: Animal): string {
+  if (animal === "dog") return "Woof";
+  if (animal === "cat") return "Meow";
+  if (animal === "bird") return "Tweet";
+  return assertNever(animal);
+}
+
+function getPath(obj: unknown, path: string): unknown {
+  if (typeof obj !== "object" || obj === null) return undefined;
+  const parts = path.split(".").filter((p) => p.length > 0);
+
+  let current: unknown = obj;
+
+  for (const part of parts) {
+    if (typeof current !== "object" || current === null) return undefined;
+    current = (current as Record<string, unknown>)[part];
+  }
+
+  return current;
+}
+
+function inferSchema(obj: unknown): Record<string, string> {
+  if (typeof obj !== "object" || obj === null || Array.isArray(obj)) {
+    return {};
+  }
+
+  const result: Record<string, string> = {};
+  for (const [key, value] of Object.entries(obj)) {
+    result[key] = Array.isArray(value) ? "array" : typeof value;
+  }
+  return result;
+}
+
+console.log(
+  getEventType({ type: "click", x: 1, y: 2 }),
+  handleResponse({ status: "success", data: 42 }),
+  processInput(true),
+  greet("dog"),
+  createAppConfig({ apiUrl: "x", timeout: 1000, retries: 2 }).apiUrl,
+  getPath({ user: { profile: { name: "A" } } }, "user.profile.name"),
+  inferSchema({ id: "1", age: 24, active: true })["active"],
+  getTypedUser().id
+);

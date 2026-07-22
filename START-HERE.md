@@ -12,57 +12,84 @@ npm run typecheck
 
 ## Learning Flow Per Module
 
-Use this order for every module:
+Every module follows the same rhythm. The exact filenames differ per module, so
+always use the **Module Sequence** below as the source of truth.
 
-1. `course/<module>/lesson.md`
-2. `examples/<module>-gotchas.ts` (or equivalent module example)
-3. `exercises/<module>.ts`
-4. `exercises/<module>-solutions.ts`
-5. `course/<module>/conceptual-questions.md`
-6. `assignments/module-<n>-assignment.md`
+1. Read the lesson (`lesson.md`)
+2. Study the gotchas example and run it
+3. Solve the exercises file (do not peek at solutions)
+4. Check your work against the solutions file
+5. Answer the deep questions (`conceptual-questions.md`)
+6. Do the module assignment
+7. Take the module checkpoint in `assessments/module-checkpoints.md`
+
+Run `npm run typecheck` constantly while you work.
 
 ## Module Sequence
 
-1. Foundations
-	- `course/01-foundations/lesson.md`
-	- `examples/01-foundations-gotchas.ts`
-	- `exercises/01-foundations-new-exercises.ts`
-	- `exercises/01-foundations-new-exercises-solutions.ts`
+Each module lists every file to open, in order. Run any example with
+`npm run example -- <path>`.
 
-2. Objects and Functions
-	- `course/02-objects-functions/lesson.md`
-	- `examples/02-objects-functions-gotchas.ts`
-	- `exercises/02-objects-functions.ts`
+### 1. Foundations
+- Lesson: `course/01-foundations/lesson.md`
+- Example: `examples/01-foundations-gotchas.ts`
+- Exercises: `exercises/01-foundations.ts`
+- Solutions: `exercises/01-foundations-solutions.ts`
+- Questions: `course/01-foundations/conceptual-questions.md`
+- Assignment: `assignments/module-1-assignment.md`
 
-3. Generics
-	- `course/03-generics/lesson.md`
-	- `examples/03-generics-gotchas.ts`
-	- `exercises/03-generics-new-exercises.ts`
-	- `exercises/03-generics-new-exercises-solutions.ts`
+### 2. Objects and Functions
+- Lesson: `course/02-objects-functions/lesson.md`
+- Example: `examples/02-objects-functions-gotchas.ts`
+- Exercises: `exercises/02-objects-functions.ts`
+- Solutions: `exercises/02-objects-functions-solutions.ts`
+- Questions: `course/02-objects-functions/conceptual-questions.md`
+- Assignment: `assignments/module-2-assignment.md`
 
-4. Advanced Types
-	- `course/04-advanced-types/lesson.md`
-	- `examples/04-advanced-types-gotchas.ts`
-	- `exercises/04-advanced-types.ts`
+### 3. Generics
+- Lesson: `course/03-generics/lesson.md`
+- Example: `examples/03-generics-gotchas.ts`
+- Exercises: `exercises/03-generics.ts`
+- Solutions: `exercises/03-generics-solutions.ts`
+- Questions: `course/03-generics/conceptual-questions.md`
+- Assignment: `assignments/module-3-assignment.md`
 
-5. Runtime Boundaries
-	- `course/05-runtime-boundaries/lesson.md`
-	- `examples/05-runtime-boundaries-gotchas.ts`
-	- `exercises/05-runtime-boundaries.ts`
+### 4. Advanced Types
+- Lesson: `course/04-advanced-types/lesson.md`
+- Example: `examples/04-advanced-types-gotchas.ts`
+- Exercises: `exercises/04-advanced-types.ts`
+- Solutions: `exercises/04-advanced-types-solutions.ts`
+- Questions: `course/04-advanced-types/conceptual-questions.md`
+- Assignment: `assignments/module-4-assignment.md`
 
-6. Tooling and Config
-	- `course/06-tooling-config/lesson.md`
-	- `examples/06-tooling-config-gotchas.ts`
-	- `exercises/06-tooling-config.ts`
+### 5. Runtime Boundaries
+- Lesson: `course/05-runtime-boundaries/lesson.md`
+- Example: `examples/05-runtime-boundaries-gotchas.ts`
+- Exercises: `exercises/05-runtime-boundaries.ts`
+- Solutions: `exercises/05-runtime-boundaries-solutions.ts`
+- Questions: `course/05-runtime-boundaries/conceptual-questions.md`
+- Assignment: `assignments/module-5-assignment.md`
 
-7. Architecture Patterns
-	- `course/07-architecture-patterns/lesson.md`
-	- `examples/07-architecture-patterns-gotchas.ts`
-	- `exercises/07-architecture-patterns.ts`
+### 6. Tooling and Config
+- Lesson: `course/06-tooling-config/lesson.md`
+- Example: `examples/06-tooling-config-gotchas.ts`
+- Exercises: `exercises/06-tooling-config.ts`
+- Solutions: `exercises/06-tooling-config-solutions.ts`
+- Questions: `course/06-tooling-config/conceptual-questions.md`
+- Assignment: `assignments/module-6-assignment.md`
 
-8. Assessments and Capstone
-	- `assessments/module-checkpoints.md`
-	- `assessments/final-capstone.md`
+### 7. Architecture Patterns
+- Lesson: `course/07-architecture-patterns/lesson.md`
+- Example: `examples/07-architecture-patterns-gotchas.ts`
+- Exercises: `exercises/07-architecture-patterns.ts`
+- Solutions: `exercises/07-architecture-patterns-solutions.ts`
+- Questions: `course/07-architecture-patterns/conceptual-questions.md`
+- Assignment: `assignments/module-7-assignment.md`
+
+### 8. Assessments and Capstone
+- Checkpoints: `assessments/module-checkpoints.md`
+- Final capstone: `assessments/final-capstone.md`
+- Teaching prompts (creators): `assessments/teaching-prompts.md`
 
 ## Revision Strategy
 

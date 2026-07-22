@@ -31,7 +31,32 @@ type PaymentState =
 	| { kind: "failed"; reason: string };
 ```
 
-Now transitions can be guarded by function signatures instead of comments.
+Now transitions can be guarded by function signatures instead of comments. A
+transition function can only accept the states it is allowed to start from, so
+illegal moves (like capturing a payment that was never authorized) do not
+compile:
+
+```ts
+// Only an authorized payment can be captured.
+function capture(
+  payment: Extract<PaymentState, { kind: "authorized" }>,
+  captureId: string
+): Extract<PaymentState, { kind: "captured" }> {
+  return { kind: "captured", captureId };
+}
+
+declare const state: PaymentState;
+
+if (state.kind === "authorized") {
+  const captured = capture(state, "cap_123"); // OK: narrowed to authorized
+}
+
+// capture({ kind: "draft" }, "cap_123");
+// ERROR: 'draft' is not assignable to the 'authorized' parameter.
+```
+
+The compiler now enforces the state machine. Comments describing "valid
+transitions" are replaced by signatures the compiler actually checks.
 
 ## Pattern 2: Ports and Adapters
 
@@ -44,7 +69,32 @@ type UserRepository = {
 };
 ```
 
-Domain logic depends on this contract, not on ORM or HTTP details.
+Domain logic depends on this contract, not on ORM or HTTP details. An adapter
+implements the port using whatever technology the outside world requires:
+
+```ts
+type User = { id: string; email: string };
+
+// Adapter: the only place that knows about database rows.
+class SqlUserRepository implements UserRepository {
+  constructor(
+    private readonly db: { query(sql: string, params: unknown[]): Promise<unknown[]> }
+  ) {}
+
+  async findById(id: string): Promise<User | null> {
+    const rows = await this.db.query("SELECT id, email FROM users WHERE id = ?", [id]);
+    const row = rows[0] as { id: string; email: string } | undefined;
+    return row ? { id: row.id, email: row.email } : null;
+  }
+
+  async save(user: User): Promise<void> {
+    await this.db.query("INSERT INTO users (id, email) VALUES (?, ?)", [user.id, user.email]);
+  }
+}
+```
+
+Swap `SqlUserRepository` for an in-memory fake in tests, and the domain code
+never notices. That is the payoff of depending on the port, not the adapter.
 
 ## Pattern 3: Command/Query Separation
 
@@ -52,6 +102,21 @@ Make side effects and reads explicit.
 
 - commands mutate state and return result objects
 - queries read projections and return read models
+
+```ts
+// Command: changes state, returns an outcome (not the data).
+type CreateOrder = (input: { userId: string; total: number }) => Promise<{ orderId: string }>;
+
+// Query: reads state, returns a read model, never mutates.
+type GetOrderSummary = (orderId: string) => Promise<{
+  orderId: string;
+  total: number;
+  status: string;
+}>;
+```
+
+Keeping the two shapes separate means a reviewer can tell, from the type alone,
+whether a function is safe to call twice. Reads are repeatable; commands are not.
 
 This reduces accidental coupling and hidden side effects.
 
@@ -65,7 +130,24 @@ type ServiceResult<T, E> =
 	| { ok: false; error: E };
 ```
 
-This improves composition and observability.
+This improves composition and observability. Because the result is a value, the
+caller must handle both branches — there is no invisible `throw` to forget:
+
+```ts
+declare const repo: UserRepository;
+
+async function loadUser(id: string): Promise<ServiceResult<User, "not-found">> {
+  const user = await repo.findById(id);
+  return user ? { ok: true, value: user } : { ok: false, error: "not-found" };
+}
+
+const result = await loadUser("u1");
+if (result.ok) {
+  console.log(result.value.email); // narrowed to User
+} else {
+  console.log(result.error);       // narrowed to "not-found"
+}
+```
 
 ## Pattern 5: Anti-Corruption Layer For Third-Party APIs
 
@@ -76,15 +158,59 @@ Wrap them behind internal types:
 1. adapter validates and maps SDK response
 2. domain receives clean internal model
 
-If vendor changes payload shape, one adapter changes, not the whole codebase.
+```ts
+// Shape the third-party SDK gives you (snake_case, nullable, extra noise).
+type StripeChargeDto = {
+  id: string;
+  amount_due: number;
+  customer_email: string | null;
+  created: number; // unix seconds
+};
+
+// Clean internal model your domain actually wants.
+type Charge = { id: string; amountDue: number; email: string; createdAt: Date };
+
+// The anti-corruption layer: the single translation point.
+function toCharge(dto: StripeChargeDto): Charge {
+  return {
+    id: dto.id,
+    amountDue: dto.amount_due,
+    email: dto.customer_email ?? "unknown@example.com",
+    createdAt: new Date(dto.created * 1000),
+  };
+}
+```
+
+If the vendor renames `amount_due` tomorrow, you change `toCharge` and nothing
+else. Without this layer, that rename ripples through every file that touched
+the raw SDK type.
 
 ## Pattern 6: Typed Policy Objects
 
 Encode business rules as types + functions, not hidden conditionals.
 
-Example: role-based permissions as explicit policy maps.
+```ts
+type Role = "viewer" | "editor" | "admin";
+type Action = "read" | "write" | "delete";
 
-This makes authorization logic reviewable and testable.
+// The policy is data, checked by the compiler for completeness.
+const permissions: Record<Role, ReadonlyArray<Action>> = {
+  viewer: ["read"],
+  editor: ["read", "write"],
+  admin: ["read", "write", "delete"],
+};
+
+function can(role: Role, action: Action): boolean {
+  return permissions[role].includes(action);
+}
+
+can("viewer", "delete"); // false
+can("admin", "write");   // true
+```
+
+Because `permissions` is typed as `Record<Role, ...>`, adding a new role to the
+`Role` union makes the compiler demand a matching entry. Authorization rules
+become reviewable data instead of scattered `if` statements.
 
 ## Pattern 7: Boundary Testing Strategy
 

@@ -1,5 +1,9 @@
 # Module 6: Tooling and Configuration - Conceptual Questions
 
+These are senior-level design questions, not syntax drills. There are no single
+right answers — only better-reasoned ones. For each question, write your answer,
+then ground it in a concrete example from a real codebase you have worked on.
+
 1. Which compiler flags in this repo prevent the highest-risk production bugs?
 2. When is temporarily relaxing strictness acceptable, and what guardrails are required?
 3. Why should `typecheck` be a separate CI step from build?
