@@ -58,6 +58,19 @@ if (state.kind === "authorized") {
 The compiler now enforces the state machine. Comments describing "valid
 transitions" are replaced by signatures the compiler actually checks.
 
+```mermaid
+stateDiagram-v2
+    [*] --> draft
+    draft --> authorized: authorize
+    authorized --> captured: capture
+    authorized --> failed: decline
+    draft --> failed: decline
+    captured --> [*]
+    failed --> [*]
+```
+
+> Each arrow is a transition function whose parameter type only accepts the states it is allowed to start from. Illegal arrows do not compile.
+
 ## Pattern 2: Ports and Adapters
 
 Define internal contracts first (ports), then external integration (adapters).
@@ -95,6 +108,17 @@ class SqlUserRepository implements UserRepository {
 
 Swap `SqlUserRepository` for an in-memory fake in tests, and the domain code
 never notices. That is the payoff of depending on the port, not the adapter.
+
+```mermaid
+flowchart LR
+    domain["Domain logic"] --> port["UserRepository port"]
+    port --> sql["SqlUserRepository adapter"]
+    port --> mem["InMemory test adapter"]
+    sql --> db[("SQL database")]
+    mem --> ram["in-process map"]
+```
+
+> Domain logic points at the port in the middle. Adapters plug in from the outside, so infrastructure can change without touching the core.
 
 ## Pattern 3: Command/Query Separation
 

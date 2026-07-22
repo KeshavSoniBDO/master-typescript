@@ -339,6 +339,11 @@ type NestedObject = {
 // that applies a function to all leaf values while keeping structure
 // Hint: Check if value is object, recurse if so, otherwise apply fn
 
+// ============================================================================
+// Exports — used by verify/02-objects-functions.test.ts. Leave these in place.
+// ============================================================================
+export { adaptUser, mergeConfigs, withConfig };
+
 function mapDeep<T extends object>(obj: T, fn: (value: any) => any): T {
   // TODO
   return obj;

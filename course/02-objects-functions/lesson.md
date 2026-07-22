@@ -26,6 +26,15 @@ const animal: Animal = dog;  // Works because shapes match
 
 This changes how you design functions, objects, and systems.
 
+```mermaid
+flowchart LR
+    v["Value user: name, age, email"] --> req{"Has every member HasName requires?"}
+    req -- "yes: name is present" --> ok["Assignable to HasName"]
+    req -- "no: a member is missing" --> bad["Not assignable"]
+```
+
+> Assignability flows one way: a value may have extra members, but it must have every member the target requires.
+
 ---
 
 ## Part 1: Structural Typing Fundamentals

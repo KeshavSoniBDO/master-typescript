@@ -117,3 +117,15 @@ function detectArchitectureSmells(sourceText: string): string[] {
   // TODO: detect signs like "any" in service layer, direct DTO usage in domain, etc.
   return [];
 }
+
+// ============================================================================
+// Exports — used by verify/07-architecture-patterns.test.ts. Leave these in place.
+// ============================================================================
+export {
+  describeTicketState,
+  startProgress,
+  createTicket,
+  InMemoryTicketRepository,
+  canCloseTicket,
+  getResolutionSummary,
+};

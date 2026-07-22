@@ -37,6 +37,15 @@ Think of generics as **slots for types**.
 - When you call a generic function, TypeScript fills that slot based on what you pass.
 - The function works the same way for every type, but respects each type's rules.
 
+```mermaid
+flowchart LR
+    call["Call: getFirst with a number array"] --> infer{{"Infer T from the argument"}}
+    infer -- "T = number" --> sig["items: T becomes number, returns T becomes number"]
+    sig --> out["first: number"]
+```
+
+> The type slot T is filled in at the call site, then flows through the whole signature.
+
 ## Part 1: Basic Generics
 
 ### Single Type Parameter

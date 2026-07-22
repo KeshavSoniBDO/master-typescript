@@ -2,13 +2,19 @@
 
 This repository is now a complete TypeScript course with modules, assignments, and assessments.
 
-## Core Command
+## Core Commands
 
-Run this often while learning:
+Run these often while learning:
 
 ```bash
-npm run typecheck
+npm run typecheck   # is the course code type-correct?
+npm run verify      # did I solve the exercises? (instant pass/fail)
 ```
+
+`npm run verify` type-checks the whole repo and runs every module's
+self-checking tests. On a fresh clone those exercise checks are **red on
+purpose** — they turn green as you implement each function. Check one module at a
+time with `npm run verify:01` through `npm run verify:07`.
 
 ## Learning Flow Per Module
 
@@ -18,10 +24,12 @@ always use the **Module Sequence** below as the source of truth.
 1. Read the lesson (`lesson.md`)
 2. Study the gotchas example and run it
 3. Solve the exercises file (do not peek at solutions)
-4. Check your work against the solutions file
-5. Answer the deep questions (`conceptual-questions.md`)
-6. Do the module assignment
-7. Take the module checkpoint in `assessments/module-checkpoints.md`
+4. Run `npm run verify:0X` for that module until every check passes
+5. Check your work against the solutions file
+6. Answer the deep questions (`conceptual-questions.md`)
+7. Do the module assignment
+8. Take the module checkpoint in `assessments/module-checkpoints.md`
+9. Revise with the glossary and flashcards in `reference/`
 
 Run `npm run typecheck` constantly while you work.
 
@@ -103,6 +111,17 @@ After all modules:
 
 1. Complete final capstone
 2. Revisit Modules 5 and 7 for production design depth
+
+## Reference and Diagrams
+
+- **Glossary** — [reference/glossary.md](reference/glossary.md): one- or two-line
+  definitions for every core term, cross-referenced to the module that teaches it.
+- **Flashcards** — [reference/flashcards.md](reference/flashcards.md): collapsible
+  active-recall cards per module, plus a CSV block you can import into Anki or Quizlet.
+- **Diagrams** — every lesson includes a Mermaid diagram of its key idea, and the
+  roadmap shows how the modules connect. GitHub renders these automatically. In
+  local VS Code, install a Mermaid preview extension (for example "Markdown Preview
+  Mermaid Support") to see them in the Markdown preview.
 
 ## Creator Mode (For Recording/Teaching)
 

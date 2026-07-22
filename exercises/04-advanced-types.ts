@@ -212,3 +212,17 @@ type EventMap = UnionToObject<Events>;
 //   click: { x: number; y: number };
 //   submit: { data: Record<string, unknown> };
 // }
+
+// ============================================================================
+// Exports — used by verify/04-advanced-types.check.ts. Leave these in place.
+// ============================================================================
+export type {
+  ExtractData,
+  ApiResponse,
+  StrictPartial,
+  User,
+  FilterByType,
+  Reverse,
+  FunctionArgs,
+  ToPrimitive,
+};

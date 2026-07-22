@@ -396,3 +396,8 @@ class Accumulator<T extends Record<string, any[]>> {
 // and reconstructing a function signature from them.
 
 // Bonus: Make the validators type-safe per argument position?
+
+// ============================================================================
+// Exports — used by verify/03-generics.test.ts. Leave these in place.
+// ============================================================================
+export { GenericCache, SafeArray, PluginRegistry, EventEmitter };

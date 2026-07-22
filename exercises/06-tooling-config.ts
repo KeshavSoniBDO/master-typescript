@@ -91,3 +91,16 @@ function upgradePolicy(policy: RulePolicy, rulesToError: string[]): RulePolicy {
   // TODO
   return policy;
 }
+
+// ============================================================================
+// Exports — used by verify/06-tooling-config.test.ts. Leave these in place.
+// ============================================================================
+export {
+  isPolicyStrictEnough,
+  normalizeInclude,
+  countDangerousSuppressions,
+  evaluateGate,
+  readMapValue,
+  upgradePolicy,
+  planMigration,
+};

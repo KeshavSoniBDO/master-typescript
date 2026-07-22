@@ -7,7 +7,15 @@
     "dev": "tsx src/index.ts",
     "example": "tsx",
     "example:playground": "tsx examples/playground.ts",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "verify": "tsc --noEmit && tsc --noEmit -p verify/tsconfig.check.json && tsx verify/run-all.ts",
+    "verify:01": "tsx verify/01-foundations.test.ts",
+    "verify:02": "tsx verify/02-objects-functions.test.ts",
+    "verify:03": "tsx verify/03-generics.test.ts",
+    "verify:04": "tsc --noEmit -p verify/tsconfig.check.json",
+    "verify:05": "tsx verify/05-runtime-boundaries.test.ts",
+    "verify:06": "tsx verify/06-tooling-config.test.ts",
+    "verify:07": "tsx verify/07-architecture-patterns.test.ts"
   },
   "devDependencies": {
     "@types/node": "latest",

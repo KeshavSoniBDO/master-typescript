@@ -28,6 +28,15 @@ type C = StringOrElse<boolean>;  // boolean (T extends string failed, so return 
 
 This is `if/else` for types.
 
+```mermaid
+flowchart LR
+    input["Conditional type: StringOrElse of T"] --> cond{"T extends string ?"}
+    cond -- "true branch" --> t["result is boolean"]
+    cond -- "false branch" --> f["result is T"]
+```
+
+> A conditional type is a compile-time branch. Feed it different `T` and it resolves down one path or the other.
+
 ### Syntax
 
 ```ts

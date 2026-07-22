@@ -15,6 +15,18 @@ The compiler erases all types before JavaScript runs. This means:
 
 Mastering TypeScript starts with asking: what does the compiler know here? What does it not know?
 
+```mermaid
+flowchart LR
+    src["TypeScript source: values and types"] --> check{"Type check at compile time"}
+    check -- "type error" --> stop["Build fails, you fix it first"]
+    check -- "types OK" --> erase["Types erased"]
+    erase --> js["Plain JavaScript"]
+    js --> run["Runtime: values only"]
+    ext["External data: API, input, files"] -. "bypasses the checker" .-> run
+```
+
+> The compiler only guards the left-hand path. External data enters on the right, unproven — that gap is what Module 5 is about.
+
 ## The Runtime / Static Time Split
 
 ### Example: What Gets Erased?

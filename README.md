@@ -11,6 +11,8 @@ The goal is not just to know TypeScript syntax. The goal is to understand how Ty
 - `exercises/` contains focused practice files.
 - `assignments/` contains larger tasks after each module.
 - `assessments/` will be used later for tests, interview-style questions, and mini-projects.
+- `verify/` contains self-checking tests so you get instant pass/fail feedback on the exercises.
+- `reference/` contains a glossary and revision flashcards.
 - `src/` is a small sandbox TypeScript project for experiments.
 
 Nothing here should be deleted casually. This repo is meant to become your revision library.
@@ -33,7 +35,15 @@ npm install
 npm run typecheck
 npm run dev
 npm run example -- examples/01-foundations-gotchas.ts
+
+# Check your exercise solutions (instant pass/fail):
+npm run verify        # type-check the repo + run every module's self-check
+npm run verify:01     # just Module 1 (verify:01 .. verify:07)
 ```
+
+On a fresh clone the exercise self-checks are **red on purpose** — they turn
+green as you implement each function. (`npm run typecheck` stays green; it checks
+the course code, not your exercise answers.)
 
 ## Course Navigation
 
@@ -41,6 +51,8 @@ npm run example -- examples/01-foundations-gotchas.ts
 - Roadmap: [course/00-roadmap.md](course/00-roadmap.md)
 - Module assignments: [assignments/README.md](assignments/README.md)
 - Assessments and capstone: [assessments/README.md](assessments/README.md)
+- Glossary: [reference/glossary.md](reference/glossary.md)
+- Flashcards: [reference/flashcards.md](reference/flashcards.md)
 
 ## Creator Mode (YouTube / Teaching)
 

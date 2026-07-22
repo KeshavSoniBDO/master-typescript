@@ -20,6 +20,17 @@ Tooling is not setup fluff. It is part of your architecture.
 Code style conventions are optional.
 Type safety conventions must be enforced by compiler flags.
 
+```mermaid
+flowchart TB
+    base["strict: true — baseline family of checks"] --> l1["plus noUncheckedIndexedAccess"]
+    l1 --> l2["plus exactOptionalPropertyTypes"]
+    l2 --> l3["plus useUnknownInCatchVariables"]
+    l3 --> l4["plus noPropertyAccessFromIndexSignature"]
+    l4 --> gate["CI type gate: tsc --noEmit"]
+```
+
+> Each flag adds a layer of proof. The CI gate is where the whole policy is enforced on every push.
+
 ## Strict Mode Is The Baseline
 
 `strict: true` enables a family of checks.

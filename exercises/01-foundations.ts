@@ -318,6 +318,23 @@ function inferSchema(obj: unknown): Record<string, string> {
   return {};
 }
 
+// ============================================================================
+// Exports — used by verify/01-foundations.test.ts. Leave these in place.
+// ============================================================================
+export {
+  UserValidator,
+  handleEvent,
+  getEventData,
+  getEventType,
+  isError,
+  isApiError,
+  handleError,
+  parseConfig,
+  handleResponse,
+  processInput,
+  getPath,
+};
+
 // Tests:
 // const schema = inferSchema({ id: "1", age: 24, active: true });
 // schema.id;     // "string"

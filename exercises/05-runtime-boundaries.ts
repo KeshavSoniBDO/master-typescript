@@ -95,3 +95,15 @@ function decodeObject<TShape extends DecoderShape>(
   // TODO
   return { ok: false, issues: ["not implemented"] };
 }
+
+// ============================================================================
+// Exports — used by verify/05-runtime-boundaries.test.ts. Leave these in place.
+// ============================================================================
+export {
+  isRecord,
+  decodeString,
+  decodeNumber,
+  mapUser,
+  decodeUser,
+  decodePositiveIntParam,
+};

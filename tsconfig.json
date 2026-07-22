@@ -11,7 +11,9 @@
     "useUnknownInCatchVariables": true,
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true,
+    "types": ["node"],
     "outDir": "dist"
   },
-  "include": ["src", "examples", "exercises"]
+  "include": ["src", "examples", "exercises", "verify"],
+  "exclude": ["node_modules", "dist", "**/*.check.ts"]
 }

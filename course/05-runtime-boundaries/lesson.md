@@ -63,6 +63,17 @@ type DecodeResult<T> =
 
 This pattern scales from tiny scripts to enterprise services.
 
+```mermaid
+flowchart LR
+    unknown["unknown input"] --> decode{"decode / validate"}
+    decode -- "ok true" --> domain["typed domain model"]
+    decode -- "ok false" --> err["structured error: issues list"]
+    domain --> use["safe business logic"]
+    err --> handle["handle / report, no crash"]
+```
+
+> Every external value passes through the decode gate. Nothing reaches your domain model unproven.
+
 ## Type Guards vs Assertion Functions
 
 ### Type Guard
